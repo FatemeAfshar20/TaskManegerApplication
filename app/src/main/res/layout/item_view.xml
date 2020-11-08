@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/task_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="@dimen/mrg_10"
+        android:text="t"
+        android:textSize="25sp"
+        android:padding="15dp"
+        android:paddingLeft="20dp"
+        android:background="@drawable/oval_stroke_solid_black"
+        android:paddingStart="27dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/task_title"
+        style="@style/TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/task_img"
+        android:layout_toRightOf="@+id/task_img"
+        android:text="@string/task_title" />
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextStyle"
+        android:id="@+id/task_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_title"
+        android:layout_toEndOf="@+id/task_img"
+        android:layout_toRightOf="@+id/task_img"
+        android:layout_margin="@dimen/mrg_10"
+        tools:text="99/9/20"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextStyle"
+        android:id="@+id/task_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_title"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/mrg_10"
+        tools:text="11:8:50"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/mrg_5"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_edit" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/btn_edit"
+        android:layout_margin="@dimen/mrg_5"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_trashcan" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btn_delete"
+        android:layout_margin="@dimen/mrg_5"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_eye" />
+</RelativeLayout>

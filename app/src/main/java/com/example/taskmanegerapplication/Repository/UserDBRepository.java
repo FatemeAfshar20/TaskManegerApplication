@@ -35,6 +35,14 @@ public class UserDBRepository implements IRepository<User>{
     }
 
     @Override
+    public User get(UUID userId) {
+        for (int i = 0; i < mUserList.size(); i++) {
+            if(mUserList.get(i).getUsername().equals(userId.toString()))
+                return mUserList.get(i);
+        }
+        return null;
+    }
+
     public User get(String username) {
         for (int i = 0; i < mUserList.size(); i++) {
             if(mUserList.get(i).getUsername().equals(username))

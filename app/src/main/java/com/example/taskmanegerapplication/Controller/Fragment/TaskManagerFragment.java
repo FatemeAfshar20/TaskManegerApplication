@@ -8,8 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.taskmanegerapplication.Adapter.*;
+import com.example.taskmanegerapplication.Controller.Activity.TaskManagerActivity;
 import com.example.taskmanegerapplication.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.UUID;
 
@@ -22,6 +29,11 @@ public class TaskManagerFragment extends Fragment {
 
     public static final String ARGS_USER_ID = "User Id";
     private UUID mUserId;
+    private ViewPager2 mViewPager;
+    private TabLayout mTabLayout;
+    private String[] mState=new String[]{"TODO","DOING","DONE"};
+
+    private TaskManagerAdapter mAdapter;
 
     public TaskManagerFragment() {
         // Required empty public constructor
@@ -48,6 +60,21 @@ public class TaskManagerFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_task_manager
                 ,container
                 ,false);
+        findViews(view);
+        setupAdapter();
         return view;
+    }
+
+    private void findViews(View view) {
+        mTabLayout=view.findViewById(R.id.tab_layout);
+        mViewPager=view.findViewById(R.id.view_pager2);
+    }
+
+    private void setupAdapter() {
+        mAdapter=new TaskManagerAdapter(getActivity(),mUserId);
+        mViewPager.setAdapter(mAdapter);
+        new TabLayoutMediator(mTabLayout, mViewPager,
+                (tab, position) -> tab.setText(mState[position])
+        ).attach();
     }
 }
