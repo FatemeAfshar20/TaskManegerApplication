@@ -59,7 +59,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
     public class Holder extends RecyclerView.ViewHolder {
         private MaterialTextView mTaskTitle, mTaskDate,
                 mTaskTime, mTaskImg;
-        private AppCompatImageButton mBtnEdit, mBtnDelete, mBtnShow;
+        private AppCompatImageButton  mBtnShow;
         private Task mTask;
 
         public Holder(@NonNull View itemView) {
@@ -74,8 +74,6 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
             mTaskTime=itemView.findViewById(R.id.task_time);
             mTaskImg=itemView.findViewById(R.id.task_img);
 
-            mBtnEdit=itemView.findViewById(R.id.btn_edit);
-            mBtnDelete=itemView.findViewById(R.id.btn_delete);
             mBtnShow = itemView.findViewById(R.id.btn_show);
         }
 
