@@ -46,7 +46,11 @@ public class TaskBDRepository implements IRepository<Task>{
     }
 
     @Override
-    public Task get(UUID uuid) {
+    public Task get(UUID taskId) {
+        for (Task task : getList()) {
+            if (task.getId().equals(taskId))
+                return task;
+        }
         return null;
     }
 

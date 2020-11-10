@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +26,7 @@ public class StateFragment extends Fragment {
     public static final String ARGS_USER_ID = "User Id";
     public static final String FRAGMENT_ADD_TASK_DIALOG_FRAGMENT = "Add Task Dialog Fragment";
     public static final int REQUEST_CODE_ADD_TASK = 1;
+    public static final String FRAGMENT_SHOW_TASK = "Show Task";
 
     private RecyclerView mRecyclerView;
     private FloatingActionButton mBtnAdd;
@@ -99,22 +99,6 @@ public class StateFragment extends Fragment {
         }
     }
 
-    /*private void updateUI() {
-        if (mStrTaskState.equals("TODO")){
-            mAdapter.setTasks(mRepository.getTodoList());
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        }else if(mStrTaskState.equals("DONE")){
-            mAdapter.setTasks(mRepository.getDoneList());
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        }else if (mStrTaskState.equals("DOING")){
-            mAdapter.setTasks(mRepository.getDoingList());
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-*/
     private void findViews(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mBtnAdd = view.findViewById(R.id.btn_add);
@@ -155,7 +139,17 @@ public class StateFragment extends Fragment {
                 break;
         }*/
             mAdapter = new StateAdapter(
-                    mRepository.getListWithUserId(mUserId), getContext());
+                    mRepository.getListWithUserId(mUserId), getContext(), new StateAdapter.OnIconSelectListener() {
+                @Override
+                public void onSelectShowBtn(UUID taskId) {
+                    ShowDialogFragment showDialogFragment=
+                            ShowDialogFragment.newInstance(taskId);
+
+                    showDialogFragment.
+                            show(getFragmentManager(),
+                                    FRAGMENT_SHOW_TASK);
+                }
+            });
 
         mRecyclerView.
                 setLayoutManager(
