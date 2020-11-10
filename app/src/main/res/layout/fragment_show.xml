@@ -133,6 +133,28 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked"
+                android:id="@+id/dialog_delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mrg_5"
+                android:padding="@dimen/pad_5"
+                android:text="Delete"
+                app:icon="@drawable/ic_trashcan_admin"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked"
+                android:id="@+id/dialog_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mrg_5"
+                android:padding="@dimen/pad_5"
+                android:text="Edit"
+                app:icon="@drawable/ic_edit"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked"
                 android:id="@+id/dialog_close_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -140,7 +162,6 @@
                 android:padding="@dimen/pad_5"
                 android:text="Close"
                 app:icon="@drawable/ic_close"
-
                 />
 
         </LinearLayout>

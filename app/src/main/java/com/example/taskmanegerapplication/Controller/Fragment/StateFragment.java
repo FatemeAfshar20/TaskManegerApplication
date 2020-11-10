@@ -27,6 +27,7 @@ public class StateFragment extends Fragment {
     public static final String FRAGMENT_ADD_TASK_DIALOG_FRAGMENT = "Add Task Dialog Fragment";
     public static final int REQUEST_CODE_ADD_TASK = 1;
     public static final String FRAGMENT_SHOW_TASK = "Show Task";
+    public static final int REQUEST_CODE_SHOW = 2;
 
     private RecyclerView mRecyclerView;
     private FloatingActionButton mBtnAdd;
@@ -93,10 +94,16 @@ public class StateFragment extends Fragment {
                             AddTaskDialogFragment.
                                     EXTRA_NEW_TASK);
             mRepository.insert(task);
-            mAdapter.notifyDataSetChanged();
-            setupAdapter();
+            updateUI();
             //updateUI();
+        }else if (requestCode==REQUEST_CODE_SHOW){
+            updateUI();
         }
+    }
+
+    private void updateUI() {
+        mAdapter.notifyDataSetChanged();
+        setupAdapter();
     }
 
     private void findViews(View view) {
@@ -144,6 +151,10 @@ public class StateFragment extends Fragment {
                 public void onSelectShowBtn(UUID taskId) {
                     ShowDialogFragment showDialogFragment=
                             ShowDialogFragment.newInstance(taskId);
+
+                    showDialogFragment.setTargetFragment(
+                            StateFragment.this,
+                            REQUEST_CODE_SHOW);
 
                     showDialogFragment.
                             show(getFragmentManager(),

@@ -56,7 +56,10 @@ public class TaskBDRepository implements IRepository<Task>{
 
     @Override
     public void delete(Task element) {
-
+        for (int i = 0; i < getList().size(); i++) {
+            if (getList().get(i).equals(element))
+                getList().remove(element);
+        }
     }
 
     @Override
@@ -66,7 +69,12 @@ public class TaskBDRepository implements IRepository<Task>{
 
     @Override
     public void update(Task element) {
-
+        for (int i = 0; i < getList().size(); i++) {
+            if (getList().get(i).getId().equals(element.getId())){
+                getList().remove(i);
+                getList().add(i,element);
+            }
+        }
     }
 
     public List<Task> getTodoList(UUID userId){
