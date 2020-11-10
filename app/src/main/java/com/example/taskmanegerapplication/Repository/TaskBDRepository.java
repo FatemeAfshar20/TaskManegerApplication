@@ -35,6 +35,16 @@ public class TaskBDRepository implements IRepository<Task>{
         return mTaskList;
     }
 
+
+    public List<Task> getListWithUserId(UUID userId) {
+        List<Task> tasks=new ArrayList<>();
+       for (Task task:getList()){
+           if (task.getUserId().equals(userId))
+               tasks.add(task);
+       }
+       return tasks;
+    }
+
     @Override
     public Task get(UUID uuid) {
         return null;
@@ -55,29 +65,29 @@ public class TaskBDRepository implements IRepository<Task>{
 
     }
 
-    public List<Task> getTodoList(){
+    public List<Task> getTodoList(UUID userId){
         List<Task> tasks=new ArrayList<>();
-        for (int i = 0; i < getList().size(); i++) {
-            if (getList().get(i).getState().toString().equals("TODO"))
-                tasks.add(getList().get(i));
+        for (int i = 0; i < getListWithUserId(userId).size(); i++) {
+            if (getListWithUserId(userId).get(i).getState().toString().equals("TODO"))
+                tasks.add(getListWithUserId(userId).get(i));
         }
         return tasks;
     }
 
-    public List<Task> getDoingList(){
+    public List<Task> getDoingList(UUID userId){
         List<Task> tasks=new ArrayList<>();
-        for (int i = 0; i < getList().size(); i++) {
-            if (getList().get(i).getState().toString().equals("DOING"))
-                tasks.add(getList().get(i));
+        for (int i = 0; i < getListWithUserId(userId).size(); i++) {
+            if (getListWithUserId(userId).get(i).getState().toString().equals("DOING"))
+                tasks.add(getListWithUserId(userId).get(i));
         }
         return tasks;
     }
 
-    public List<Task> getDoneList(){
+    public List<Task> getDoneList(UUID userId){
         List<Task> tasks=new ArrayList<>();
-        for (int i = 0; i < getList().size(); i++) {
-            if (getList().get(i).getState().toString().equals("DONE"))
-                tasks.add(getList().get(i));
+        for (int i = 0; i < getListWithUserId(userId).size(); i++) {
+            if (getListWithUserId(userId).get(i).getState().toString().equals("DONE"))
+                tasks.add(getListWithUserId(userId).get(i));
         }
         return tasks;
     }

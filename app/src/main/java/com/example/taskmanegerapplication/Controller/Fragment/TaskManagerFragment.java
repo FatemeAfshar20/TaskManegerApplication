@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.taskmanegerapplication.Adapter.*;
 import com.example.taskmanegerapplication.Controller.Activity.TaskManagerActivity;
 import com.example.taskmanegerapplication.R;
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -31,7 +32,6 @@ public class TaskManagerFragment extends Fragment {
     private UUID mUserId;
     private ViewPager2 mViewPager;
     private TabLayout mTabLayout;
-    private String[] mState=new String[]{"TODO","DOING","DONE"};
 
     private TaskManagerAdapter mAdapter;
 
@@ -62,6 +62,28 @@ public class TaskManagerFragment extends Fragment {
                 ,false);
         findViews(view);
         setupAdapter();
+        mTabLayout=view.findViewById(R.id.tab_layout);
+        TabItem todoTab=view.findViewById(R.id.todo_tab);
+        TabItem doingTab=view.findViewById(R.id.doing_tab);
+        TabItem doneTab=view.findViewById(R.id.done_tab);
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         return view;
     }
 
@@ -73,8 +95,5 @@ public class TaskManagerFragment extends Fragment {
     private void setupAdapter() {
         mAdapter=new TaskManagerAdapter(getActivity(),mUserId);
         mViewPager.setAdapter(mAdapter);
-        new TabLayoutMediator(mTabLayout, mViewPager,
-                (tab, position) -> tab.setText(mState[position])
-        ).attach();
     }
 }

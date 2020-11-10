@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.taskmanegerapplication.Controller.Fragment.StateFragment;
 import com.example.taskmanegerapplication.Model.User;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.UUID;
 
@@ -31,6 +32,8 @@ public class TaskManagerAdapter extends FragmentStateAdapter {
             default:
                 return null;
         }
+
+
     }
 
     @Override

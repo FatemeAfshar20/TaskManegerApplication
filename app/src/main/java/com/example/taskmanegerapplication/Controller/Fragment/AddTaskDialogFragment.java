@@ -95,7 +95,6 @@ public class AddTaskDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 returnNewTask();
-                mTaskDBRepository.insert(mTask);
                 sendData();
                 dismiss();
             }
@@ -165,7 +164,7 @@ public class AddTaskDialogFragment extends DialogFragment {
         intent.putExtra(EXTRA_NEW_TASK,mTask);
 
         getTargetFragment().onActivityResult(
-                StateFragment.REQUEST_CODE_ADD_TASK,
+                getTargetRequestCode(),
                 Activity.RESULT_OK,
                 intent);
     }
