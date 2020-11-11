@@ -26,7 +26,8 @@ public class TaskBDRepository implements IRepository<Task>{
         mContext=context.getApplicationContext();
         TaskManagerDataBase dataBase= Room.
                 databaseBuilder(mContext,TaskManagerDataBase.class,
-                        TaskManagerSchema.NAME).build();
+                        TaskManagerSchema.NAME).
+                allowMainThreadQueries().build();
 
         mDAO=dataBase.getTableDAO();
        /* TaskManagerHelper taskManagerHelper=

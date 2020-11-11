@@ -1,5 +1,6 @@
 package com.example.taskmanegerapplication.DataBase;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -9,7 +10,7 @@ import com.example.taskmanegerapplication.Model.Task;
 
 import java.util.List;
 import java.util.UUID;
-
+@Dao
 public interface TaskTableDAO {
     @Query(value = "SELECT * FROM Task")
     List<Task> getList();
@@ -25,5 +26,4 @@ public interface TaskTableDAO {
     void insert(Task element);
     @Update
     void update(Task element);
-
 }

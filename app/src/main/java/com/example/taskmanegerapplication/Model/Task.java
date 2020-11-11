@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 @Entity
-public class Task implements Serializable {
+public class Task  implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long mId;
     @ColumnInfo(name = TaskColumns.UUID)
@@ -36,15 +36,21 @@ public class Task implements Serializable {
         mTime = new Date();
     }
 
-    public Task(UUID UUID, String taskTitle,
-                String taskContent, TaskState taskState,
-                Date taskDate, Date taskTime, UUID userId) {
-        this(UUID);
-        mTitle = taskTitle;
-        mContent = taskContent;
-        mState = taskState;
-        mDate = taskDate;
-        mTime = taskTime;
+    public Task(long id,
+                UUID UUID,
+                String title,
+                String content,
+                Date date,
+                Date time,
+                TaskState state,
+                UUID userId) {
+        mId = id;
+        mUUID = UUID;
+        mTitle = title;
+        mContent = content;
+        mDate = date;
+        mTime = time;
+        mState = state;
         mUserId = userId;
     }
 

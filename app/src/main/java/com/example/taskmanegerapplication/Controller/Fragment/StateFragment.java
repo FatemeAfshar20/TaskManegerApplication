@@ -146,7 +146,7 @@ public class StateFragment extends Fragment {
                 break;
         }*/
             mAdapter = new StateAdapter(
-                    mRepository.getListWithUserId(mUserId), getContext(), new StateAdapter.OnIconSelectListener() {
+                    mRepository.getListWithState(mStrTaskState,mUserId), getContext(), new StateAdapter.OnIconSelectListener() {
                 @Override
                 public void onSelectShowBtn(UUID taskId) {
                     ShowDialogFragment showDialogFragment=

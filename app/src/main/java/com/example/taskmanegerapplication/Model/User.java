@@ -9,11 +9,12 @@ import androidx.room.PrimaryKey;
 
 import com.example.taskmanegerapplication.DataBase.TaskManagerSchema.User.UserColumns;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 @Entity
-public class User {
+public class User implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long mId;
     @ColumnInfo(name = UserColumns.UUID)
@@ -25,7 +26,7 @@ public class User {
     @ColumnInfo(name = UserColumns.MEMBERSHIP)
     private Date mMemberSheep;
     @ColumnInfo(name = UserColumns.ISADMIN)
-    private boolean mIsAdmin=false;
+    private boolean mIsAdmin;
 
     public User() {
         mUUID =UUID.randomUUID();
@@ -42,10 +43,13 @@ public class User {
         mPass = pass;
     }
 
-    public User(UUID id, String username, String pass) {
-        this(id);
+    public User(long id, UUID UUID, String username, String pass, Date memberSheep, boolean isAdmin) {
+        mId = id;
+        mUUID = UUID;
         mUsername = username;
         mPass = pass;
+        mMemberSheep = memberSheep;
+        mIsAdmin = isAdmin;
     }
 
     public long getId() {
@@ -92,7 +96,7 @@ public class User {
         return mIsAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setIsAdmin(boolean admin) {
         mIsAdmin = admin;
     }
 
