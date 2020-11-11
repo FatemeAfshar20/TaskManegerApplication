@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanegerapplication.Model.Task;
@@ -58,8 +59,9 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
 
     public class Holder extends RecyclerView.ViewHolder {
         private MaterialTextView mTaskTitle, mTaskDate,
-                mTaskTime, mTaskImg;
-        private AppCompatImageButton  mBtnShow;
+                mTaskTime;
+        private AppCompatImageButton mBtnShow, mCamera, mShare;
+        private AppCompatImageView mTaskImg;
         private Task mTask;
 
         public Holder(@NonNull View itemView) {
@@ -69,12 +71,14 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
         }
 
         private void findViews(@NonNull View itemView) {
-            mTaskTitle=itemView.findViewById(R.id.task_title);
-            mTaskDate=itemView.findViewById(R.id.task_date);
-            mTaskTime=itemView.findViewById(R.id.task_time);
-            mTaskImg=itemView.findViewById(R.id.task_img);
+            mTaskTitle = itemView.findViewById(R.id.task_title);
+            mTaskDate = itemView.findViewById(R.id.task_date);
+            mTaskTime = itemView.findViewById(R.id.task_time);
+            mTaskImg = itemView.findViewById(R.id.task_img);
 
             mBtnShow = itemView.findViewById(R.id.btn_show);
+            mCamera = itemView.findViewById(R.id.camera);
+            mShare = itemView.findViewById(R.id.share);
         }
 
         public void bind(Task task) {
@@ -82,7 +86,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
             mTaskTitle.setText(task.getTitle());
             mTaskDate.setText(DateTimeFormat.getDateFormat(task.getDate()));
             mTaskTime.setText(DateTimeFormat.getTimeFormat(task.getDate()));
-            mTaskImg.setText(task.getTitle().substring(0, 1));
+
         }
 
         public void setListener() {
@@ -92,10 +96,30 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
                     mCallbacks.onSelectShowBtn(mTask.getUUID());
                 }
             });
+
+            mCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            mShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallbacks.onShareTaskInfo(
+                            "Task Title: " + mTask.getTitle() +
+                                    "Task Content: " + mTask.getContent() +
+                                    "Task Time: " + mTask.getTime() +
+                                    "Task Date: " + mTask.getDate() +
+                                    "Task State: " + mTask.getState());
+                }
+            });
         }
     }
 
     public interface OnIconSelectListener {
         void onSelectShowBtn(UUID taskId);
+        void onShareTaskInfo(String taskInfo);
     }
 }

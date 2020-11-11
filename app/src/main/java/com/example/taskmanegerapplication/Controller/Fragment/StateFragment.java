@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -159,6 +160,22 @@ public class StateFragment extends Fragment {
                     showDialogFragment.
                             show(getFragmentManager(),
                                     FRAGMENT_SHOW_TASK);
+                }
+
+                @Override
+                public void onShareTaskInfo(String taskInfo) {
+ /*                   Intent intent=new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT,taskInfo);
+                    intent.setType("text/plain");*/
+
+                    Intent intent= ShareCompat.IntentBuilder
+                            .from(getActivity()).
+                                    setText(taskInfo).
+                                    setType("text/plain").
+                                    setSubject("Sharing Task Information ").
+                                    getIntent();
+                     if (intent.resolveActivity(getActivity().getPackageManager()) !=null)
+                         startActivity(intent);
                 }
             });
 
