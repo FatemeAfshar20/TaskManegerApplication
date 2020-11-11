@@ -1,6 +1,5 @@
 package com.example.taskmanegerapplication.Controller.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +72,7 @@ public class LoginFragment extends Fragment {
                     if (mRepository.userExist(mUsername.getText().toString())){
                         mUser=mRepository.get(mUsername.getText().toString());
                         if (mPassword.getText().toString().equals(mUser.getPass()))
-                            TaskManagerActivity.start(getContext(),mUser.getId());
+                            TaskManagerActivity.start(getContext(),mUser.getUUID());
                         else
                             returnToast(R.string.invalid_input);
                     }else

@@ -3,21 +3,37 @@ package com.example.taskmanegerapplication.Model;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import com.example.taskmanegerapplication.DataBase.TaskManagerSchema.User.UserColumns;
+
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
-
+@Entity
 public class User {
-    private UUID mId;
+    @PrimaryKey(autoGenerate = true)
+    private long mId;
+    @ColumnInfo(name = UserColumns.UUID)
+    private UUID mUUID;
+    @ColumnInfo(name = UserColumns.USERNAME)
     private String mUsername;
+    @ColumnInfo(name = UserColumns.PASSWORD)
     private String mPass;
+    @ColumnInfo(name = UserColumns.MEMBERSHIP)
+    private Date mMemberSheep;
+    @ColumnInfo(name = UserColumns.ISADMIN)
+    private boolean mIsAdmin=false;
 
     public User() {
-        mId=UUID.randomUUID();
+        mUUID =UUID.randomUUID();
+        mMemberSheep=new Date();
     }
 
     public User(UUID id) {
-        mId = id;
+        mUUID = id;
     }
 
     public User(String username, String pass) {
@@ -32,12 +48,20 @@ public class User {
         mPass = pass;
     }
 
-    public UUID getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         mId = id;
+    }
+
+    public UUID getUUID() {
+        return mUUID;
+    }
+
+    public void setUUID(UUID UUID) {
+        mUUID = UUID;
     }
 
     public String getUsername() {
@@ -56,13 +80,29 @@ public class User {
         mPass = pass;
     }
 
+    public Date getMemberSheep() {
+        return mMemberSheep;
+    }
+
+    public void setMemberSheep(Date memberSheep) {
+        mMemberSheep = memberSheep;
+    }
+
+    public boolean isAdmin() {
+        return mIsAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        mIsAdmin = admin;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(mId, user.mId) &&
+        return Objects.equals(mUUID, user.mUUID) &&
                 Objects.equals(mUsername, user.mUsername) &&
                 Objects.equals(mPass, user.mPass);
     }
@@ -70,6 +110,6 @@ public class User {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(mId, mUsername, mPass);
+        return Objects.hash(mUUID, mUsername, mPass);
     }
 }

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface IRepository<E> {
     List<E> getList();
-    E get(UUID userId);
+    E get(UUID id);
     void delete(E element);
     void insert(E element);
     void update(E element);

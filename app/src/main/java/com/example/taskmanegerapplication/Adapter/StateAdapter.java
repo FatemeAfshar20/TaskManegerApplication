@@ -89,7 +89,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
             mBtnShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallbacks.onSelectShowBtn(mTask.getId());
+                    mCallbacks.onSelectShowBtn(mTask.getUUID());
                 }
             });
         }
@@ -98,5 +98,4 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
     public interface OnIconSelectListener {
         void onSelectShowBtn(UUID taskId);
     }
-
 }

@@ -9,7 +9,7 @@ public class TaskManagerSchema {
 
         public static final class UserColumns{
             public static final String ID="id";
-            public static final String UUID="uuid";
+            public static final String UUID="userId";
             public static final String USERNAME="username";
             public static final String PASSWORD="password";
             public static final String MEMBERSHIP="membership";
@@ -22,7 +22,7 @@ public class TaskManagerSchema {
 
         public static final class TaskColumns {
             public static final String ID="id";
-            public static final String UUID="uuid";
+            public static final String UUID="taskId";
             public static final String TITLE="title";
             public static final String CONTENT="content";
             public static final String DATE="date";
