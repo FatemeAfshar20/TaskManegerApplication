@@ -2,13 +2,18 @@ package com.example.taskmanegerapplication.Controller.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +22,13 @@ import com.example.taskmanegerapplication.Adapter.StateAdapter;
 import com.example.taskmanegerapplication.Model.Task;
 import com.example.taskmanegerapplication.R;
 import com.example.taskmanegerapplication.Repository.TaskBDRepository;
+import com.example.taskmanegerapplication.Utils.PhotoUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class StateFragment extends Fragment {
@@ -29,6 +39,8 @@ public class StateFragment extends Fragment {
     public static final int REQUEST_CODE_ADD_TASK = 1;
     public static final String FRAGMENT_SHOW_TASK = "Show Task";
     public static final int REQUEST_CODE_SHOW = 2;
+    public static final String AUTHORITY = "com.example.taskmanegerapplication.fileprovider";
+    public static final int REQUEST_CODE_CAMERA = 3;
 
     private RecyclerView mRecyclerView;
     private FloatingActionButton mBtnAdd;
@@ -38,7 +50,8 @@ public class StateFragment extends Fragment {
     private String mStrTaskState;
 
     private TaskBDRepository mRepository;
-
+    private File mPhotoFile;
+    private Task mTask;
     public StateFragment() {
         // Required empty public constructor
     }
@@ -96,8 +109,15 @@ public class StateFragment extends Fragment {
                                     EXTRA_NEW_TASK);
             mRepository.insert(task);
             updateUI();
-            //updateUI();
+
         }else if (requestCode==REQUEST_CODE_SHOW){
+            updateUI();
+        }else if (requestCode==REQUEST_CODE_CAMERA){
+            Uri photoUri = FileProvider.getUriForFile(getActivity(),
+                    AUTHORITY, mPhotoFile);
+
+            getActivity().revokeUriPermission(photoUri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updateUI();
         }
     }
@@ -167,16 +187,45 @@ public class StateFragment extends Fragment {
  /*                   Intent intent=new Intent(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_TEXT,taskInfo);
                     intent.setType("text/plain");*/
-
-                    Intent intent= ShareCompat.IntentBuilder
+                    Intent intent = ShareCompat.IntentBuilder
                             .from(getActivity()).
                                     setText(taskInfo).
                                     setType("text/plain").
                                     setSubject("Sharing Task Information ").
                                     getIntent();
-                     if (intent.resolveActivity(getActivity().getPackageManager()) !=null)
-                         startActivity(intent);
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null)
+                        startActivity(intent);
                 }
+
+                @Override
+                public String onTakePhoto(Task task) {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        mPhotoFile = null;
+
+                        try {
+                            mPhotoFile=createImageFile();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+
+                        if (mPhotoFile != null) {
+                            Uri photoUri= FileProvider.getUriForFile(
+                                    getContext(),
+                                    AUTHORITY,
+                                    mPhotoFile);
+                            task.setImgAddress(mPhotoFile.getAbsolutePath());
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                            startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
+                        }
+                    }
+                    return mPhotoFile.getAbsolutePath();
+                }
+
+                @Override
+                public void onSetImage(AppCompatImageView imageView) {
+                }
+
             });
 
         mRecyclerView.
@@ -184,5 +233,21 @@ public class StateFragment extends Fragment {
                         new LinearLayoutManager(getContext()));
 
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getFilesDir();
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        String currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }

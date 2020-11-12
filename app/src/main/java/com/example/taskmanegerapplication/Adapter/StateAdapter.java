@@ -1,6 +1,8 @@
 package com.example.taskmanegerapplication.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskmanegerapplication.Model.Task;
 import com.example.taskmanegerapplication.R;
 import com.example.taskmanegerapplication.Utils.DateTimeFormat;
+import com.example.taskmanegerapplication.Utils.PhotoUtils;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.List;
@@ -87,6 +90,10 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
             mTaskDate.setText(DateTimeFormat.getDateFormat(task.getDate()));
             mTaskTime.setText(DateTimeFormat.getTimeFormat(task.getDate()));
 
+            Bitmap image = PhotoUtils.getScalePhoto(
+                    mTask.getImgAddress(), (Activity) mContext);
+
+            mTaskImg.setImageBitmap(image);
         }
 
         public void setListener() {
@@ -94,13 +101,6 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
                 @Override
                 public void onClick(View v) {
                     mCallbacks.onSelectShowBtn(mTask.getUUID());
-                }
-            });
-
-            mCamera.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
                 }
             });
 
@@ -115,11 +115,26 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
                                     "Task State: " + mTask.getState());
                 }
             });
+
+            mCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String path=mCallbacks.onTakePhoto(mTask);
+                    mTask.setImgAddress(path);
+
+                    mCallbacks.onSetImage(mTaskImg);
+                }
+            });
         }
     }
 
     public interface OnIconSelectListener {
         void onSelectShowBtn(UUID taskId);
+
         void onShareTaskInfo(String taskInfo);
+
+        String onTakePhoto(Task task);
+
+        void onSetImage(AppCompatImageView imageView);
     }
 }
