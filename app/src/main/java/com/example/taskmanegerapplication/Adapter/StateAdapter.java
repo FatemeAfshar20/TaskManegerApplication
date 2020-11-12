@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -18,11 +20,15 @@ import com.example.taskmanegerapplication.Utils.DateTimeFormat;
 import com.example.taskmanegerapplication.Utils.PhotoUtils;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
+public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> implements Filterable {
     private List<Task> mTasks;
+
+    private List<Task> mSearchResult;
     private Context mContext;
     private OnIconSelectListener mCallbacks;
 
@@ -38,6 +44,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
         mTasks = tasks;
         mContext = context;
         mCallbacks=onIconSelectListener;
+        mSearchResult=new ArrayList<>(tasks);
     }
 
     @NonNull
@@ -58,6 +65,38 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> {
     @Override
     public int getItemCount() {
         return mTasks.size();
+    }
+
+
+    private Filter mFilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Task> resultList=new ArrayList<>();
+            if (constraint==null || constraint.length()==0)
+                resultList.addAll(mSearchResult);
+            else {
+
+                String filterPattern=constraint.toString().toLowerCase().trim();
+                for (Task task : mSearchResult) {
+                    if (task.getTitle().contains(filterPattern))
+                        resultList.add(task);
+                }
+            }
+            FilterResults filterResults=new FilterResults();
+            filterResults.values=resultList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+                mTasks.clear();
+                mTasks.addAll((List)results.values);
+                notifyDataSetChanged();
+        }
+    };
+    @Override
+    public Filter getFilter() {
+        return mFilter;
     }
 
     public class Holder extends RecyclerView.ViewHolder {

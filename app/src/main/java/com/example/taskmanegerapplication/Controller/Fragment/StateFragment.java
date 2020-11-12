@@ -2,16 +2,21 @@ package com.example.taskmanegerapplication.Controller.Fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import android.widget.SearchView;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -72,6 +77,8 @@ public class StateFragment extends Fragment {
         mRepository = TaskBDRepository.getInstance(getContext());
         mStrTaskState = (String)
                 getArguments().get(ARGS_TASK_STATE);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -93,6 +100,28 @@ public class StateFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setupAdapter();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+       inflater.inflate(R.menu.menu_actionbar,menu);
+
+        MenuItem searchItem=menu.findItem(R.id.search);
+        SearchView searchView= (SearchView)
+                searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     @Override
