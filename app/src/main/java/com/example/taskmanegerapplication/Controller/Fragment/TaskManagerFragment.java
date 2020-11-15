@@ -63,9 +63,6 @@ public class TaskManagerFragment extends Fragment {
         findViews(view);
         setupAdapter();
         mTabLayout=view.findViewById(R.id.tab_layout);
-        TabItem todoTab=view.findViewById(R.id.todo_tab);
-        TabItem doingTab=view.findViewById(R.id.doing_tab);
-        TabItem doneTab=view.findViewById(R.id.done_tab);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
