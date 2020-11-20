@@ -36,4 +36,5 @@
     <string name="numeric_pass">Password should be number</string>
     <string name="length_pass">"Password should be more than 8</string>
     <string name="search">Search</string>
+    <string name="take_photo">take photo</string>
 </resources>

@@ -21,11 +21,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.UUID;
 
-/**
- * A simple {@link Fragment} subclass.
-
- * create an instance of this fragment.
- */
 public class TaskManagerFragment extends Fragment {
 
     public static final String ARGS_USER_ID = "User Id";

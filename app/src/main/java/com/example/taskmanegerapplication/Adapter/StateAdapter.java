@@ -102,7 +102,7 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> impl
     public class Holder extends RecyclerView.ViewHolder {
         private MaterialTextView mTaskTitle, mTaskDate,
                 mTaskTime;
-        private AppCompatImageButton mBtnShow, mCamera, mShare;
+        private AppCompatImageButton mBtnShow, mShare;
         private AppCompatImageView mTaskImg;
         private Task mTask;
 
@@ -119,7 +119,6 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> impl
             mTaskImg = itemView.findViewById(R.id.task_img);
 
             mBtnShow = itemView.findViewById(R.id.btn_show);
-            mCamera = itemView.findViewById(R.id.camera);
             mShare = itemView.findViewById(R.id.share);
         }
 
@@ -154,26 +153,11 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.Holder> impl
                                     "Task State: " + mTask.getState());
                 }
             });
-
-            mCamera.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String path=mCallbacks.onTakePhoto(mTask);
-                    mTask.setImgAddress(path);
-
-                    mCallbacks.onSetImage(mTaskImg);
-                }
-            });
         }
     }
 
     public interface OnIconSelectListener {
         void onSelectShowBtn(UUID taskId);
-
         void onShareTaskInfo(String taskInfo);
-
-        String onTakePhoto(Task task);
-
-        void onSetImage(AppCompatImageView imageView);
     }
 }
