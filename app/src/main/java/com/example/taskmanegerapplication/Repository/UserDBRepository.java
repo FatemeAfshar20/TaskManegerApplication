@@ -86,4 +86,13 @@ public class UserDBRepository implements IRepository<User>{
             return true;
         return false;
     }
+
+    public void deleteAll() {
+        for (int i = 0; i < getList().size(); i++) {
+            if (!getList().get(i).isAdmin()) {
+                delete(getList().get(i));
+                i--;
+            }
+        }
+    }
 }

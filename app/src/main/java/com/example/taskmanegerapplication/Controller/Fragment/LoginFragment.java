@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.taskmanegerapplication.Controller.Activity.AdminActivity;
 import com.example.taskmanegerapplication.Controller.Activity.SignActivity;
 import com.example.taskmanegerapplication.Controller.Activity.TaskManagerActivity;
 import com.example.taskmanegerapplication.Model.User;
@@ -72,12 +73,14 @@ public class LoginFragment extends Fragment {
                     if (mRepository.userExist(mUsername.getText().toString())){
                         mUser=mRepository.get(mUsername.getText().toString());
                         if (mPassword.getText().toString().equals(mUser.getPass()))
-                            TaskManagerActivity.start(getContext(),mUser.getUUID());
+                            if (mUser.isAdmin())
+                                AdminActivity.start(getContext());
+                            else
+                                TaskManagerActivity.start(getContext(),mUser.getUUID());
                         else
                             returnToast(R.string.invalid_input);
                     }else
                         returnToast("At first Sign Up");
-
             }
         });
 
@@ -92,7 +95,7 @@ public class LoginFragment extends Fragment {
 
     public  void returnToast(int msgId){
         Toast.makeText(getContext(),msgId,Toast.LENGTH_LONG)
-                .show();;
+                .show();
     }
 
     public  void returnToast(String msg){

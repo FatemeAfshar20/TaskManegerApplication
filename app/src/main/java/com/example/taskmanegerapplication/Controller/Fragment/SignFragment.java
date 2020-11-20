@@ -19,19 +19,19 @@ import com.google.android.material.button.MaterialButton;
 
 public class SignFragment extends Fragment {
     private UserDBRepository mRepository;
-    private User mUser=new User();
+    private User mUser = new User();
     private MaterialButton mButtonSign;
     private EditText mUsername,
-            mPassword;
+            mPassword, mAdminKey;
 
     public SignFragment() {
         // Required empty public constructor
     }
 
     public static SignFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         SignFragment fragment = new SignFragment();
         fragment.setArguments(args);
         return fragment;
@@ -61,7 +61,8 @@ public class SignFragment extends Fragment {
     public void findViews(View view){
         mButtonSign=view.findViewById(R.id.btn_sign_up);
         mUsername=view.findViewById(R.id.user_name);
-        mPassword=view.findViewById(R.id.pass);
+        mPassword = view.findViewById(R.id.pass);
+        mAdminKey = view.findViewById(R.id.admin_pass);
     }
 
     private void setListener(){
@@ -69,10 +70,12 @@ public class SignFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!mRepository.userExist(mUsername.getText().toString())){
-                    if (!mUsername.getText().toString().equals("") && !mPassword.getText().toString().equals("")){
+                    if (!mUsername.getText().toString().equals("") && !mPassword.getText().toString().equals("")) {
                         mUser.setUsername(mUsername.getText().toString());
                         mUser.setPass(mPassword.getText().toString());
 
+                        if (mAdminKey.getText().toString().equals("@utab"))
+                            mUser.setIsAdmin(true);
                         mRepository.insert(mUser);
 
                         LoginActivity.start(getContext());
